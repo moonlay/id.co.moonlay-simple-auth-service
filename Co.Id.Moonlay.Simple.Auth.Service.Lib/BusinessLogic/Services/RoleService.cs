@@ -106,11 +106,11 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.BusinessLogic.Services
             {
                 var permission = data.Permissions.SingleOrDefault(x => x.Id == item.Id);
 
-                permission.Division = item.Division;
+                permission.DivisionName = item.DivisionName;
                 permission.permission = item.permission;
-                permission.Unit = item.Unit;
-                permission.UnitCode = item.UnitCode;
-                permission.UnitId = item.UnitId;
+                permission.JobTitleName = item.JobTitleName;
+                permission.JobTitleCode = item.JobTitleCode;
+                permission.JobTitleId = item.JobTitleId;
 
                 EntityExtension.FlagForUpdate(permission, IdentityService.Username, UserAgent);
             }

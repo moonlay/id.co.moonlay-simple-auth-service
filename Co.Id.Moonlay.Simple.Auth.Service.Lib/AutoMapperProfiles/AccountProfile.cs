@@ -28,10 +28,10 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.AutoMapperProfiles
                 .ForPath(d => d.id, opt => opt.MapFrom(s => s.Id))
                 .ForPath(d => d.permission, opt => opt.MapFrom(s => s.permission))
                 .ForPath(d => d.roleId, opt => opt.MapFrom(s => s.RoleId))
-                .ForPath(d => d.unit.Code, opt => opt.MapFrom(s => s.UnitCode))
-                .ForPath(d => d.unit.Name, opt => opt.MapFrom(s => s.Unit))
-                .ForPath(d => d.unit.Id, opt => opt.MapFrom(s => s.UnitId))
-                .ForPath(d => d.unit.Division.Name, opt => opt.MapFrom(s => s.Division))
+                .ForPath(d => d.jobTitle.Code, opt => opt.MapFrom(s => s.JobTitleCode))
+                .ForPath(d => d.jobTitle.Name, opt => opt.MapFrom(s => s.JobTitleName))
+                .ForPath(d => d.jobTitle.Id, opt => opt.MapFrom(s => s.JobTitleId))
+                .ForPath(d => d.jobTitle.Division.Name, opt => opt.MapFrom(s => s.DivisionName))
                 .ReverseMap();
 
             CreateMap<Account, AccountViewModel>()

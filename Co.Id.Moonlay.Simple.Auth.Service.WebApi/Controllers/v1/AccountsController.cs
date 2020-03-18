@@ -17,7 +17,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
     [Produces("application/json")]
     [ApiVersion("1.0")]
     [Route("v{version:apiVersion}/accounts")]
-    //[Authorize]
+    [Authorize]
     public class AccountsController : BaseController<Account, AccountViewModel, IAccountService>
     {
 

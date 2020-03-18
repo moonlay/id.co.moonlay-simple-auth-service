@@ -74,9 +74,9 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
 
                     if (viewModel.roles.Count > 0)
                     {
-                        foreach (var item in viewModel.roles.SelectMany(x => x.permissions).GroupBy(x => x.unit.Code).Select(g => g.First()))
+                        foreach (var item in viewModel.roles.SelectMany(x => x.permissions).GroupBy(x => x.jobTitle.Code).Select(g => g.First()))
                         {
-                            jsonRes = jsonRes + "'" + item.unit.Code + "'" + " : " + item.permission + ",";
+                            jsonRes = jsonRes + "'" + item.jobTitle.Code + "'" + " : " + item.permission + ",";
                         }
 
                         jsonRes = jsonRes.Remove(jsonRes.Length - 1);
