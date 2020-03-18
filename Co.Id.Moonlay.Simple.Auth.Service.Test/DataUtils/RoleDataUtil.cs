@@ -27,11 +27,11 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Test.DataUtils
                 {
                     new Permission()
                     {
-                        Division = "div",
+                        DivisionName = "div",
                         permission = 1,
-                        Unit = "unit",
-                        UnitCode = "unitcode",
-                        UnitId = 1
+                        JobTitleName = "unit",
+                        JobTitleCode = "unitcode",
+                        JobTitleId = 1
                     }
                 }
             };
@@ -49,12 +49,12 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Test.DataUtils
                     new PermissionViewModel()
                     {
                         permission = 1,
-                        unit = new UnitViewModel()
+                        jobTitle = new JobTitleViewModel()
                         {
                             Id = 1,
                             Name = "name",
                             Code = "code",
-                            Division = new DivisionViewModel()
+                            Division = new JobTitleDivisionViewModel()
                             {
                                 Name = "divName"
                             }

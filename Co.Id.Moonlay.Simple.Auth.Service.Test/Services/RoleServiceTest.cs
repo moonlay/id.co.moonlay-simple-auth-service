@@ -63,7 +63,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Test.Services
             {
                 new PermissionViewModel()
                 {
-                    unit = new UnitViewModel()
+                    jobTitle = new JobTitleViewModel()
                 }
             };
             Assert.True(vm.Validate(context).Count() > 0);
@@ -76,7 +76,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Test.Services
                     _createdBy = "a",
                     _createdDate = DateTime.UtcNow,
                     id = 1,
-                    unit = new UnitViewModel()
+                    jobTitle = new JobTitleViewModel()
                     {
                         Name = "err"
                     }

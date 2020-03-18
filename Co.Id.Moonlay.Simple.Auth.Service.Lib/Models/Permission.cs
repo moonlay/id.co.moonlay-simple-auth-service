@@ -8,10 +8,10 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Models
 {
     public class Permission : StandardEntity
     {
-        public int UnitId { get; set; }
-        public string UnitCode { get; set; }
-        public string Unit { get; set; }
-        public string Division { get; set; }
+        public int JobTitleId { get; set; }
+        public string JobTitleCode { get; set; }
+        public string JobTitleName { get; set; }
+        public string DivisionName { get; set; }
         public int permission { get; set; }
 
         public int RoleId { get; set; }

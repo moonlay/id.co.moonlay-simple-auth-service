@@ -11,10 +11,10 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Configs
     {
         public void Configure(EntityTypeBuilder<Permission> builder)
         {
-            builder.Property(p => p.Unit).HasMaxLength(255);
-            builder.Property(p => p.UnitCode).HasMaxLength(255);
+            builder.Property(p => p.JobTitleName).HasMaxLength(255);
+            builder.Property(p => p.JobTitleCode).HasMaxLength(255);
             builder.Property(p => p.UId).HasMaxLength(255);
-            builder.Property(p => p.Division).HasMaxLength(255);
+            builder.Property(p => p.DivisionName).HasMaxLength(255);
         }
     }
 }

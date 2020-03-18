@@ -10,7 +10,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.ViewModels
         public DateTime _createdDate { get; set; }
         public string _createdBy { get; set; }
         public string _createAgent { get; set; }
-        public UnitViewModel unit { get; set; }
+        public JobTitleViewModel jobTitle { get; set; }
         public int permission { get; set; }
         public int roleId { get; set; }
     }

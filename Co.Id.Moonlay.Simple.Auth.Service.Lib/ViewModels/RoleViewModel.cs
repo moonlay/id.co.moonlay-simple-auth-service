@@ -42,10 +42,10 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.ViewModels
             {
                 foreach (PermissionViewModel permission in permissions)
                 {
-                    if (string.IsNullOrWhiteSpace(permission.unit.Name))
+                    if (string.IsNullOrWhiteSpace(permission.jobTitle.Name))
                     {
                         Count++;
-                        permissionError += "{ unit: 'Unit is required' }, ";
+                        permissionError += "{ jobTitle: 'Unit is required' }, ";
                     }
                     else
                     {
@@ -59,7 +59,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.ViewModels
 
             if (Count > 0)
             {
-                yield return new ValidationResult(permissionError, new List<string> { "unit" });
+                yield return new ValidationResult(permissionError, new List<string> { "jobTitles" });
             }
         }
     }
