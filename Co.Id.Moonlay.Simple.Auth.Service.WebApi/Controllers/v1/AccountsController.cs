@@ -25,5 +25,27 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
         {
 
         }
+
+        [HttpGet("by-division-name/{divisionName}")]
+        public async Task<IActionResult> GetAccountByDivisionName([FromRoute] string divisionName)
+        {
+            try
+            {
+                var users = await Service.GetAccountByDivisionName(divisionName);
+                var userViewModels = Mapper.Map<List<AccountViewModel>>(users);
+
+                var result = new ResultFormatter(ApiVersion, General.OK_STATUS_CODE, General.OK_MESSAGE).Ok();
+
+                result.Add("data", userViewModels);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Dictionary<string, object> Result =
+                    new ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, e.Message)
+                    .Fail();
+                return StatusCode(General.INTERNAL_ERROR_STATUS_CODE, Result);
+            }
+        }
     }
 }

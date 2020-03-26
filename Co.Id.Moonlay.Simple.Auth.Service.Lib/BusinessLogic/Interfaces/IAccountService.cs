@@ -13,5 +13,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.BusinessLogic.Interfaces
         Task<Account> Authenticate(string username, string password);
 
         bool CheckDuplicate(int id, string username);
+
+        Task<List<Account>> GetAccountByDivisionName(string divisionName);
     }
 }

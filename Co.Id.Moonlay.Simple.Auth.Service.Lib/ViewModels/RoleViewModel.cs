@@ -13,6 +13,20 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.ViewModels
 {
     public class RoleViewModel : BaseOldViewModel, IValidatableObject
     {
+        //public RoleViewModel()
+        //{
+
+        //}
+
+        //public RoleViewModel(AccountRole accountRole)
+        //{
+        //    code = accountRole.Role.Code;
+        //    name = accountRole.Role.Name;
+
+        //    if (accountRole.Role.Permissions.Count > 0)
+        //        permissions = accountRole.Role.Permissions.Select(permission => new PermissionViewModel(permission)).ToList();
+        //}
+
         public string code { get; set; }
         public string name { get; set; }
         public string description { get; set; }
