@@ -10,6 +10,22 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.ViewModels
 {
     public class AccountViewModel : BaseOldViewModel, IValidatableObject
     {
+        //public AccountViewModel()
+        //{
+
+        //}
+
+        //public AccountViewModel(Account result)
+        //{
+        //    username = result.Username;
+        //    profile = new AccountProfileViewModel()
+        //    {
+        //        firstname = result.AccountProfile.Firstname
+        //    };
+        //    if (result.AccountRoles.Count > 0)
+        //        roles = result.AccountRoles.Select(accountRole => new RoleViewModel(accountRole)).ToList();
+        //}
+
         public string username { get; set; }
         public string password { get; set; }
         public bool isLocked { get; set; }

@@ -2,6 +2,7 @@
 using Co.Id.Moonlay.Simple.Auth.Service.Lib.Models;
 using Co.Id.Moonlay.Simple.Auth.Service.Lib.Services.IdentityService;
 using Co.Id.Moonlay.Simple.Auth.Service.Lib.Utilities;
+using Co.Id.Moonlay.Simple.Auth.Service.Lib.ViewModels;
 using Com.Moonlay.Models;
 using Com.Moonlay.NetCore.Lib;
 using IdentityServer4.Models;
@@ -188,6 +189,24 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.BusinessLogic.Services
         public bool CheckDuplicate(int id, string username)
         {
             return DbSet.Any(r => r.IsDeleted.Equals(false) && r.Id != id && r.Username.Equals(username));
+        }
+
+        public async Task<List<Account>> GetAccountByDivisionName(string divisionName)
+        {
+            //permission who can approve
+            var roleIds = await DbContext.Permissions.Where(permission => permission.DivisionName.ToUpper() == divisionName.ToUpper() && permission.permission == 1).Select(permission => permission.RoleId).ToListAsync();
+
+            var accountIds = DbContext.AccountRoles.Where(accountRole => roleIds.Contains(accountRole.RoleId)).Select(accountRole => accountRole.AccountId).ToList();
+
+            return await DbSet
+                .Include(x => x.AccountProfile)
+                .Include(x => x.AccountRoles)
+                .ThenInclude(i => i.Role)
+                .ThenInclude(y => y.Permissions)
+                .Where(account => accountIds.Contains(account.Id))
+                .ToListAsync();
+
+            //return queryResult.Select(result => new AccountViewModel(result)).ToList();
         }
     }
 }
