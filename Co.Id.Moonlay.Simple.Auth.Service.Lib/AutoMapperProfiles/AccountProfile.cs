@@ -1,5 +1,6 @@
 ﻿using Co.Id.Moonlay.Simple.Auth.Service.Lib.Models;
 using Co.Id.Moonlay.Simple.Auth.Service.Lib.ViewModels;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.AutoMapperProfiles
 {
@@ -8,15 +9,38 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.AutoMapperProfiles
         public AccountProfile() : base()
         {
             CreateMap<Models.AccountProfile, AccountProfileViewModel>()
-                .ForPath(d => d.firstname, opt => opt.MapFrom(s => s.Firstname))
-                .ForPath(d => d.gender, opt => opt.MapFrom(s => s.Gender))
-                .ForPath(d => d.id, opt => opt.MapFrom(s => s.Id))
-                .ForPath(d => d.lastname, opt => opt.MapFrom(s => s.Lastname))
+                .ForPath(d => d.fullname, opt => opt.MapFrom(s => s.Fullname))
+                .ForPath(d => d.employeeid, opt => opt.MapFrom(s => s.EmployeeID))
                 .ForPath(d => d.dob, opt => opt.MapFrom(s => s.Dob))
+                .ForPath(d => d.gender, opt => opt.MapFrom(s => s.Gender))
+                .ForPath(d => d.religion, opt => opt.MapFrom(s => s.Religion))
                 .ForPath(d => d.email, opt => opt.MapFrom(s => s.Email))
+                .ForPath(d => d.password, opt => opt.MapFrom(s => s.Password))
+                .ForPath(d => d.jobtitlename, opt => opt.MapFrom(s => s.JobTitleName))
+                .ForPath(d => d.departmanet, opt => opt.MapFrom(s => s.Department))
+                .ForPath(d => d.joindate, opt => opt.MapFrom(s => s.JoinDate))
+                .ForPath(d => d.skillset, opt => opt.MapFrom(s => s.SkillSet))
+                .ForPath(d => d.coorporateemail, opt => opt.MapFrom(s => s.CoorporateEmail))
                 .ReverseMap();
 
-            CreateMap<AccountRole, RoleViewModel>()
+            CreateMap<Models.Asset, AccountProfileViewModel>()
+                .ForPath(d => d.assetname, opt => opt.MapFrom(s => s.AssetName))
+                .ForPath(d => d.assetnumber, opt => opt.MapFrom(s => s.AssetNumber))
+                .ReverseMap();
+
+            CreateMap<Models.Payroll, AccountProfileViewModel>()
+                .ForPath(d => d.salary, opt => opt.MapFrom(s => s.Salary))
+                .ForPath(d => d.tax, opt => opt.MapFrom(s => s.Tax))
+                .ForPath(d => d.bpjskesehatan, opt => opt.MapFrom(s => s.BPJSKesehatan))
+                .ForPath(d => d.bpjstenagakerja, opt => opt.MapFrom(s => s.BPJSTenagaKerja))
+                .ForPath(d => d.npwp, opt => opt.MapFrom(s => s.NPWP))
+                .ForPath(d => d.namebankaccount, opt => opt.MapFrom(s => s.NameBankAccount))
+                .ForPath(d => d.bank, opt => opt.MapFrom(s => s.Bank))
+                .ForPath(d => d.bankaccountnumber, opt => opt.MapFrom(s => s.BankAccountNumber))
+                .ForPath(d => d.bankbranch, opt => opt.MapFrom(s => s.BankBranch))
+                .ReverseMap();
+
+            /*CreateMap<AccountRole, RoleViewModel>()
                 .ForPath(d => d.code, opt => opt.MapFrom(s => s.Role.Code))
                 .ForPath(d => d.description, opt => opt.MapFrom(s => s.Role.Description))
                 .ForPath(d => d.name, opt => opt.MapFrom(s => s.Role.Name))
@@ -40,9 +64,9 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.AutoMapperProfiles
                 .ForPath(d => d.isLocked, opt => opt.MapFrom(s => s.IsLocked))
                 .ForPath(d => d.profile, opt => opt.MapFrom(s => s.AccountProfile))
                 .ForPath(d => d.roles, opt => opt.MapFrom(s => s.AccountRoles))
-                .ReverseMap();
+                .ReverseMap();*/
 
-            
+
         }
     }
 }

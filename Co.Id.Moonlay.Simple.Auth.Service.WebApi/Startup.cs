@@ -61,7 +61,10 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi
 
             string connectionString = Configuration.GetConnectionString(Constant.DEFAULT_CONNECTION) ?? Configuration[Constant.DEFAULT_CONNECTION];
             string env = Configuration.GetValue<string>(Constant.ASPNETCORE_ENVIRONMENT);
-            services.AddDbContext<AuthDbContext>(options => options.UseSqlServer(connectionString, c => c.CommandTimeout(120)));
+
+            services
+                .AddDbContext<AuthDbContext>(options => options.UseSqlServer(connectionString));
+                
 
             #region Register
             RegisterServices(services);

@@ -42,8 +42,8 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.ViewModels
             if (this._id.Equals(0) && string.IsNullOrWhiteSpace(this.password))
                 yield return new ValidationResult("Password is required", new List<string> { "password" });
 
-            if (this.profile == null || string.IsNullOrWhiteSpace(this.profile.firstname))
-                yield return new ValidationResult("{ firstname: 'First Name is required' }", new List<string> { "profile" });
+            if (this.profile == null || string.IsNullOrWhiteSpace(this.profile.fullname))
+                yield return new ValidationResult("{ fullname: 'Full Name is required' }", new List<string> { "profile" });
 
             /* Service Validation */
             var service = validationContext.GetService<IAccountService>();

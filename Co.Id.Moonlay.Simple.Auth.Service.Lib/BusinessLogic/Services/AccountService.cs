@@ -129,9 +129,9 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.BusinessLogic.Services
             data.IsLocked = model.IsLocked;
             data.AccountProfile.Dob = model.AccountProfile.Dob;
             data.AccountProfile.Email = model.AccountProfile.Email;
-            data.AccountProfile.Firstname = model.AccountProfile.Firstname;
+            data.AccountProfile.Fullname = model.AccountProfile.Fullname;
             data.AccountProfile.Gender = model.AccountProfile.Gender;
-            data.AccountProfile.Lastname = model.AccountProfile.Lastname;
+            data.AccountProfile.EmployeeID = model.AccountProfile.EmployeeID;
 
             var updatedRoles = model.AccountRoles.Where(x => data.AccountRoles.Any(y => y.RoleId == x.RoleId));
             var addedRoles = model.AccountRoles.Where(x => !data.AccountRoles.Any(y => y.RoleId == x.RoleId));

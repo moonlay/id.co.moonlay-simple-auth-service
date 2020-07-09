@@ -12,6 +12,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Models
         public string JobTitleCode { get; set; }
         public string JobTitleName { get; set; }
         public string DivisionName { get; set; }
+        public string JobStatus { get; set; }
         public int permission { get; set; }
 
         public int RoleId { get; set; }

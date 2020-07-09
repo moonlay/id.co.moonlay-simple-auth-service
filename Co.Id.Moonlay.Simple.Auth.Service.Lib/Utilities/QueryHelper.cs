@@ -1,4 +1,5 @@
-﻿using Com.Moonlay.Models;
+﻿using Co.Id.Moonlay.Simple.Auth.Service.Lib.Models;
+using Com.Moonlay.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -77,6 +78,11 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Utilities
                 query = query.Where(SearchQuery, keyword);
             }
             return query;
+        }
+
+        internal static IQueryable<AccountProfile> Search(IQueryable<AccountProfile> query, List<string> searchAttributes, string keyword)
+        {
+            throw new NotImplementedException();
         }
     }
 }
