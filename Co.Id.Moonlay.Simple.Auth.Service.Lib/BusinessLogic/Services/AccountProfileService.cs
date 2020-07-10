@@ -13,11 +13,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.BusinessLogic.Services
 {
     public class AccountProfileService : IAccountProfileService
     {
+        private const string UserAgent = "auth-service";
         protected DbSet<AccountProfile> DbSet;
         protected IIdentityService IdentityService;
         public AuthDbContext DbContext;
@@ -26,6 +28,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.BusinessLogic.Services
         {
             DbContext = dbContext;
             this.DbSet = dbContext.Set<AccountProfile>();
+            this.IdentityService = serviceProvider.GetService<IIdentityService>();
         }
 
         public bool CheckDuplicate(int id, string fullname, string email)
@@ -34,14 +37,27 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.BusinessLogic.Services
             && r.Email.Equals(email));
         }
 
-        public Task<int> CreateAsync(AccountProfile model)
+        public async Task<int> CreateAsync(AccountProfile model)
         {
-            throw new NotImplementedException();
+            EntityExtension.FlagForCreate(model, IdentityService.Username, UserAgent);
+            EntityExtension.FlagForCreate(model.Asset, IdentityService.Username, UserAgent);
+            EntityExtension.FlagForCreate(model.Payroll, IdentityService.Username, UserAgent);
+            EntityExtension.FlagForCreate(model.Family, IdentityService.Username, UserAgent);
+            EntityExtension.FlagForCreate(model.EducationInfo, IdentityService.Username, UserAgent);
+            DbSet.Add(model);
+            return await DbContext.SaveChangesAsync();
         }
 
-        public Task<int> DeleteAsync(int id)
+        public async Task<int> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            AccountProfile model = await ReadByIdAsync(id);
+            EntityExtension.FlagForDelete(model, IdentityService.Username, UserAgent, true);
+            EntityExtension.FlagForDelete(model.Asset, IdentityService.Username, UserAgent, true);
+            EntityExtension.FlagForDelete(model.Payroll, IdentityService.Username, UserAgent, true);
+            EntityExtension.FlagForDelete(model.Family, IdentityService.Username, UserAgent, true);
+            EntityExtension.FlagForDelete(model.EducationInfo, IdentityService.Username, UserAgent, true);
+            DbSet.Update(model);
+            return await DbContext.SaveChangesAsync();
         }
 
         public Task<List<AccountProfile>> GetAccountProfileByFullName(string fullname)

@@ -2,6 +2,7 @@
 using Co.Id.Moonlay.Simple.Auth.Service.Lib.AutoMapperProfiles;
 using Co.Id.Moonlay.Simple.Auth.Service.Lib.BusinessLogic.Interfaces;
 using Co.Id.Moonlay.Simple.Auth.Service.Lib.Models;
+using Co.Id.Moonlay.Simple.Auth.Service.Lib.Services.IdentityService;
 using Co.Id.Moonlay.Simple.Auth.Service.Lib.ViewModels;
 using Co.Id.Moonlay.Simple.Auth.Service.WebApi.Utilities;
 using Microsoft.AspNetCore.Authorization;
