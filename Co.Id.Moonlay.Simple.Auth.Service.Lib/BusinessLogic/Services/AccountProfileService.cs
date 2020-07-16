@@ -79,7 +79,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.BusinessLogic.Services
                 "Fullname"
             };
 
-            query = QueryHelper<Account>.Search(query, searchAttributes, keyword);
+            query = QueryHelper<AccountProfile>.Search(query, searchAttributes, keyword);
 
             Dictionary<string, object> filterDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(filter);
             query = QueryHelper<AccountProfile>.Filter((IQueryable<AccountProfile>)query, filterDictionary);
@@ -94,8 +94,8 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.BusinessLogic.Services
 
             query = query.Select(x => new AccountProfile()
             {
-                Family = x.Family,
-                EducationInfo = x.EducationInfo,
+                //Family = x.Family,
+                //EducationInfo = x.EducationInfo,
                 Active = x.Active,
                 CreatedAgent = x.CreatedAgent,
                 CreatedBy = x.CreatedBy,
@@ -120,15 +120,25 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.BusinessLogic.Services
         public async Task<AccountProfile> ReadByIdAsync(int id)
         {
             var result = await DbSet
-                .Include(x => x.Family)
-                .Include(x => x.EducationInfo)
+                //.Include(x => x.Family)
+                //.Include(x => x.EducationInfo)
                 .FirstOrDefaultAsync(d => d.Id.Equals(id) && !d.IsDeleted);
             return result;
         }
 
-        public Task<int> UpdateAsync(int id, AccountProfile model)
+        public async Task<int> UpdateAsync(int id, AccountProfile model)
         {
-            throw new NotImplementedException();
+            var data = await ReadByIdAsync(id);
+
+            data.Dob = model.Dob;
+            data.Email = model.Email;
+            data.Fullname = model.Fullname;
+            data.Gender = model.Gender;
+            data.EmployeeID = model.EmployeeID;
+            data.Religion = model.Religion;
+
+            DbSet.Update(data);
+            return await DbContext.SaveChangesAsync();
         }
     }
 }

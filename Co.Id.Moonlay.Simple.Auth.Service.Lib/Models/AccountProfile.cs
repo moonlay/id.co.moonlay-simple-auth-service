@@ -26,8 +26,10 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Models
         public string WorkingEXP { get; set; }
 
         public virtual EducationInfo EducationInfo { get; set; }
+        public int Educationinfoid { get; set; }
 
         public virtual FamilyData Family { get; set; }
+        public int Familyid { get; set; }
         
         public virtual Payroll Payroll { get; set; }
 

@@ -50,7 +50,10 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi
         {
             services
                  .AddTransient<IRoleService, RoleService>()
-                 .AddTransient<IAccountService, AccountService>();
+                 .AddTransient<IAccountService, AccountService>()
+                 .AddTransient<IAccountProfileService, AccountProfileService>()
+                 .AddTransient<IFamilyDataService, FamilyDataService>()
+                 .AddTransient<IEducationInfoService, EducationInfoService>();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
