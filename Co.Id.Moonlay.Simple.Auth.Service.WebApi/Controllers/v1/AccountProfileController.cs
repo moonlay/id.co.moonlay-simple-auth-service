@@ -26,11 +26,15 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
     public class AccountProfileController : Controller
     {
         private readonly AuthDbContext _context;
+        private readonly IAccountProfileService _accountProfileService;
+        private readonly IMapper _mapper;
         public static readonly string ApiVersion = "2.0.0";
 
-        public AccountProfileController(AuthDbContext context)
+        public AccountProfileController(AuthDbContext context, IAccountProfileService accountProfileService, IMapper mapper)
         {
             _context = context;
+            _accountProfileService = accountProfileService;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -53,8 +57,9 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
         }
 
         [HttpPost]
-        public async Task<ActionResult<AccountProfile>> PostAccountProfile(AccountProfile accountProfile)
+        public async Task<ActionResult<AccountProfile>> PostAccountProfile(AccountProfile accountProfile, AccountProfileViewModel model)
         {
+            var profile = _mapper.Map<AccountProfileViewModel, AccountProfile>(model);
             _context.AccountProfiles.Add(accountProfile);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(AccountProfile), new { id = accountProfile.Id }, accountProfile);

@@ -12,7 +12,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
 {
     [Produces("application/json")]
     [ApiVersion("1.0")]
-    [Route("v{version:apiVersion}/accountprofile")]
+    [Route("v{version:apiVersion}/familydata")]
     [Authorize]
     public class FamilyDataController : Controller
     {
