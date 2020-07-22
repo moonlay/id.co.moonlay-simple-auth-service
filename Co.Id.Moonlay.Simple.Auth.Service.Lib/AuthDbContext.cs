@@ -21,6 +21,12 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib
         public DbSet<AccountRole> AccountRoles { get; set; }
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<Asset> Assets { get; set; }
+        public DbSet<Payroll> Payrolls { get; set; }
+        public DbSet<FamilyData>FamilyDatas { get; set; }
+        public DbSet<EducationInfo>EducationInfos { get; set; }
+        public DbSet<InformalEducation>InformalEducations { get; set; }
+        public DbSet<WorkingExperience>WorkingExperiences { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -31,6 +37,12 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib
             modelBuilder.ApplyConfiguration<Permission>(new PermissionConfig());
             modelBuilder.ApplyConfiguration<Role>(new RoleConfig());
             modelBuilder.ApplyConfiguration<AccountRole>(new AccountRoleConfig());
+            modelBuilder.ApplyConfiguration<Asset>(new AssetConfig());
+            modelBuilder.ApplyConfiguration<Payroll>(new PayrollConfig());
+            modelBuilder.ApplyConfiguration<FamilyData>(new FamilyDataConfig());
+            modelBuilder.ApplyConfiguration<EducationInfo>(new EducationInfoConfig());
+            modelBuilder.ApplyConfiguration<InformalEducation>(new InformalEducationConfig());
+            modelBuilder.ApplyConfiguration<WorkingExperience>(new WorkingExperienceConfig());
         }
     }
 }

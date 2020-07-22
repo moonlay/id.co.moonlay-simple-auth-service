@@ -4,14 +4,16 @@ using Co.Id.Moonlay.Simple.Auth.Service.Lib;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    partial class AuthDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200720092729_WorkingEXP")]
+    partial class WorkingEXP
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -720,6 +722,8 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Migrations
 
                     b.Property<bool>("Active");
 
+                    b.Property<bool>("Certificate");
+
                     b.Property<string>("Company")
                         .HasMaxLength(255);
 
@@ -743,8 +747,10 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Migrations
 
                     b.Property<DateTime>("DeletedUtc");
 
-                    b.Property<string>("Deskripsi")
+                    b.Property<string>("Description")
                         .HasMaxLength(255);
+
+                    b.Property<DateTimeOffset?>("EndDate");
 
                     b.Property<bool>("IsDeleted");
 
@@ -761,11 +767,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Migrations
 
                     b.Property<DateTime>("LastModifiedUtc");
 
-                    b.Property<bool>("Sertifikat");
-
-                    b.Property<DateTimeOffset?>("TanggalMulai");
-
-                    b.Property<DateTimeOffset?>("TanggalSelesai");
+                    b.Property<DateTimeOffset?>("StartDate");
 
                     b.HasKey("Id");
 

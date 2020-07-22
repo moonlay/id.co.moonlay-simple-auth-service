@@ -13,6 +13,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Configs
         {
             builder.Property(p => p.JobTitleName).HasMaxLength(255);
             builder.Property(p => p.JobTitleCode).HasMaxLength(255);
+            builder.Property(p => p.JobStatus).HasMaxLength(225);
             builder.Property(p => p.UId).HasMaxLength(255);
             builder.Property(p => p.DivisionName).HasMaxLength(255);
         }
