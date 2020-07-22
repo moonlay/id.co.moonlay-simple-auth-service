@@ -52,18 +52,25 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.AutoMapperProfiles
                 .ForPath(d => d.majors, opt => opt.MapFrom(s => s.Majors))
                 .ForPath(d => d.yearstart, opt => opt.MapFrom(s => s.YearStart))
                 .ForPath(d => d.yearend, opt => opt.MapFrom(s => s.YearEnd))
+                .ReverseMap();
 
+            //Informal Education Info
+            CreateMap<Models.InformalEducation, EducationInfoViewModel>()
                 .ForPath(d => d.heldby, opt => opt.MapFrom(s => s.HeldBy))
                 .ForPath(d => d.startdate, opt => opt.MapFrom(s => s.StartDate))
                 .ForPath(d => d.enddate, opt => opt.MapFrom(s => s.EndDate))
-                .ForPath(d => d.fee, opt => opt.MapFrom(s => s.Fee))
                 .ForPath(d => d.description, opt => opt.MapFrom(s => s.Description))
                 .ForPath(d => d.certificate, opt => opt.MapFrom(s => s.Certificate))
+                .ReverseMap();
 
+            //Working Experience
+            CreateMap<Models.WorkingExperience, WorkingExperienceViewModel>()
                 .ForPath(d => d.company, opt => opt.MapFrom(s => s.Company))
                 .ForPath(d => d.jobposition, opt => opt.MapFrom(s => s.JobPosition))
-                .ForPath(d => d.fromjob, opt => opt.MapFrom(s => s.FromJob))
-                .ForPath(d => d.tojob, opt => opt.MapFrom(s => s.ToJob))
+                .ForPath(d => d.startDate, opt => opt.MapFrom(s => s.TanggalMulai))
+                .ForPath(d => d.endDate, opt => opt.MapFrom(s => s.TanggalSelesai))
+                .ForPath(d => d.deskripsi, opt => opt.MapFrom(s => s.Deskripsi))
+                .ForPath(d => d.sertifikat, opt => opt.MapFrom(s => s.Sertifikat))
                 .ReverseMap();
         }
     }

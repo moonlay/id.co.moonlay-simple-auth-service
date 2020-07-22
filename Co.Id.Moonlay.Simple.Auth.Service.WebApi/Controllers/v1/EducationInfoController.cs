@@ -1,5 +1,8 @@
-﻿using Co.Id.Moonlay.Simple.Auth.Service.Lib;
+﻿using AutoMapper;
+using Co.Id.Moonlay.Simple.Auth.Service.Lib;
+using Co.Id.Moonlay.Simple.Auth.Service.Lib.BusinessLogic.Interfaces;
 using Co.Id.Moonlay.Simple.Auth.Service.Lib.Models;
+using Co.Id.Moonlay.Simple.Auth.Service.Lib.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -44,7 +47,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
         }
 
         [HttpPost]
-        public async Task<ActionResult<EducationInfo>> PostEducationInfo(EducationInfo educationInfo)
+        public async Task<ActionResult<EducationInfo>> PostEducationInfos(EducationInfo educationInfo)
         {
             _context.EducationInfos.Add(educationInfo);
             await _context.SaveChangesAsync();

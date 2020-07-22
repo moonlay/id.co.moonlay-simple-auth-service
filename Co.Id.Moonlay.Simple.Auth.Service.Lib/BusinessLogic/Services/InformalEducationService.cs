@@ -12,28 +12,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-
 namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.BusinessLogic.Services
 {
-    public class EducationInfoService : IEducationInfoService
+    public class InformalEducationService : IInformalEducationService
     {
         private const string UserAgent = "auth-service";
-        protected DbSet<EducationInfo> DbSet;
+        protected DbSet<InformalEducation> DbSet;
         protected IIdentityService IdentityService;
         public AuthDbContext DbContext;
 
-        public EducationInfoService(IServiceProvider serviceProvider, AuthDbContext dbContext)
+        public InformalEducationService(IServiceProvider serviceProvider, AuthDbContext dbContext)
         {
             DbContext = dbContext;
-            this.DbSet = dbContext.Set<EducationInfo>();
+            this.DbSet = dbContext.Set<InformalEducation>();
             this.IdentityService = serviceProvider.GetService<IIdentityService>();
         }
-        public bool CheckDuplicate(int id, string educationinfoid)
+
+        public bool CheckDuplicate(int id)
         {
-            return DbSet.Any(r => r.IsDeleted.Equals(false) && r.Id != id && r.EducationInfoId.Equals(educationinfoid));
+            return DbSet.Any(r => r.IsDeleted.Equals(false) && r.Id != id);
         }
 
-        public async Task<int> CreateAsync(EducationInfo model)
+        public async Task<int> CreateAsync(InformalEducation model)
         {
             EntityExtension.FlagForCreate(model, IdentityService.Username, UserAgent);
             DbSet.Add(model);
@@ -42,65 +42,63 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.BusinessLogic.Services
 
         public async Task<int> DeleteAsync(int id)
         {
-            EducationInfo model = await ReadByIdAsync(id);
+            InformalEducation model = await ReadByIdAsync(id);
             EntityExtension.FlagForDelete(model, IdentityService.Username, UserAgent, true);
             DbSet.Update(model);
             return await DbContext.SaveChangesAsync();
         }
 
-        public ReadResponse<EducationInfo> Read(int page, int size, string order, List<string> select, string keyword, string filter)
+        public ReadResponse<InformalEducation> Read(int page, int size, string order, List<string> select, string keyword, string filter)
         {
-            IQueryable<EducationInfo> query = DbSet.Where(x => !x.IsDeleted);
+            IQueryable<InformalEducation> query = DbSet.Where(x => !x.IsDeleted);
             List<string> searchAttributes = new List<string>()
             {
-                "EducationInfoId"
+                "HeldBy"
             };
-            query = QueryHelper<EducationInfo>.Search(query, searchAttributes, keyword);
+            query = QueryHelper<InformalEducation>.Search(query, searchAttributes, keyword);
 
             Dictionary<string, object> filterDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(filter);
-            query = QueryHelper<EducationInfo>.Filter((IQueryable<EducationInfo>)query, filterDictionary);
+            query = QueryHelper<InformalEducation>.Filter((IQueryable<InformalEducation>)query, filterDictionary);
 
             List<string> selectedFields = new List<string>()
                 {
-                    "EducationInfoId", "Grade","Institution",
+                    "_id", "HeldBy",
                 };
             Dictionary<string, string> orderDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(order);
-            query = QueryHelper<EducationInfo>.Order((IQueryable<EducationInfo>)query, orderDictionary);
+            query = QueryHelper<InformalEducation>.Order((IQueryable<InformalEducation>)query, orderDictionary);
 
-            query = query.Select(x => new EducationInfo()
+            query = query.Select(x => new InformalEducation()
             {
-               Id = x.Id,
-               EducationInfoId = x.EducationInfoId,
-               Grade = x.Grade,
-               Institution = x.Institution,
-               Majors = x.Majors,
-               YearStart = x.YearStart,
-               YearEnd = x.YearEnd
+                Id = x.Id,
+                HeldBy = x.HeldBy,
+                StartDate = x.StartDate,
+                EndDate = x.EndDate,
+                Description = x.Description,
+                Certificate = x.Certificate
             });
 
-            Pageable<EducationInfo> pageable = new Pageable<EducationInfo>(query, page - 1, size);
-            List<EducationInfo> data = pageable.Data.ToList();
+            Pageable<InformalEducation> pageable = new Pageable<InformalEducation>(query, page - 1, size);
+            List<InformalEducation> data = pageable.Data.ToList();
             int totalData = pageable.TotalCount;
 
-            return new ReadResponse<EducationInfo>(data, totalData, orderDictionary, selectedFields);
+            return new ReadResponse<InformalEducation>(data, totalData, orderDictionary, selectedFields);
         }
 
-        public async Task<EducationInfo> ReadByIdAsync(int id)
+        public async Task<InformalEducation> ReadByIdAsync(int id)
         {
             var result = await DbSet.FirstOrDefaultAsync(d => d.Id.Equals(id) && !d.IsDeleted);
             return result;
         }
 
-        public async Task<int> UpdateAsync(int id, EducationInfo model)
+        public async Task<int> UpdateAsync(int id, InformalEducation model)
         {
             var data = await ReadByIdAsync(id);
 
-            //Formal Education Experience
-            data.Grade = model.Grade;
-            data.Institution = model.Institution;
-            data.Majors = model.Majors;
-            data.YearStart = model.YearStart;
-            data.YearEnd = model.YearEnd;
+            data.HeldBy = model.HeldBy;
+            data.StartDate = model.StartDate;
+            data.EndDate = model.EndDate;
+            data.Description = model.Description;
+            data.Certificate = model.Certificate;
 
             DbSet.Update(data);
             return await DbContext.SaveChangesAsync();

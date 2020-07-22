@@ -20,14 +20,8 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.ViewModels
         public string heldby { get; set; }
         public DateTimeOffset? startdate { get; set; }
         public DateTimeOffset? enddate { get; set; }
-        public string fee { get; set; }
         public string description { get; set; }
         public bool certificate { get; set; }
-
-        //Working Experience 
-        public string company { get; set; }
-        public string jobposition { get; set; }
-        public string fromjob { get; set; }
-        public string tojob { get; set; }
+        
     }
 }

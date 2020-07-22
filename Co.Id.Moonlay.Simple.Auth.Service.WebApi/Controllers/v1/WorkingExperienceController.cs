@@ -15,61 +15,75 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AccountProfile = Co.Id.Moonlay.Simple.Auth.Service.Lib.Models.AccountProfile;
 
 namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
 {
     [Produces("application/json")]
     [ApiVersion("1.0")]
-    [Route("v{version:apiVersion}/accountprofile")]
+    [Route("v{version:apiVersion}/workingExperience")]
     [Authorize]
-    public class AccountProfileController : Controller
+
+    public class WorkingExperienceController : Controller
     {
         private readonly AuthDbContext _context;
         public static readonly string ApiVersion = "1.0.0";
 
-        public AccountProfileController(AuthDbContext context)
+        public WorkingExperienceController(AuthDbContext context)
         {
             _context = context;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AccountProfile>>> GetAccountProfiles()
+        public async Task<ActionResult<IEnumerable<WorkingExperience>>> GetWorkingExperiences()
         {
-            return await _context.AccountProfiles.ToListAsync();
+            return await _context.WorkingExperiences.ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<AccountProfile>> GetAccountProfiles(long id)
+        public async Task<ActionResult<WorkingExperience>> GetWorkingExperiences(long id)
         {
-            var accountProfile = await _context.AccountProfiles.FindAsync(id);
+            var workingExperience = await _context.WorkingExperiences.FindAsync(id);
 
-            if (accountProfile == null)
+            if (workingExperience == null)
             {
                 return NotFound();
             }
 
-            return accountProfile;
+            return workingExperience;
         }
 
         [HttpPost]
-        public async Task<ActionResult<AccountProfile>> PostAccountProfile(AccountProfile accountProfile)
+        public async Task<ActionResult<WorkingExperience>> PostWorkingExperience(WorkingExperience workingExperience)
         {
-            _context.AccountProfiles.Add(accountProfile);
+            _context.WorkingExperiences.Add(workingExperience);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(AccountProfile), new { id = accountProfile.Id }, accountProfile);
+            return CreatedAtAction(nameof(WorkingExperience), new { id = workingExperience.Id }, workingExperience);
         }
 
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<WorkingExperience>> DeleteWorkingExperience(long id)
+        {
+            var workingExperience = await _context.WorkingExperiences.FindAsync(id);
+            if (workingExperience == null)
+            {
+                return NotFound();
+            }
+
+            _context.WorkingExperiences.Remove(workingExperience);
+            await _context.SaveChangesAsync();
+
+            return workingExperience;
+        }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAccountProfile(long id, AccountProfile accountProfile)
+        public async Task<IActionResult> PutWorkingExperience(long id, WorkingExperience workingExperience)
         {
-            if (id != accountProfile.Id)
+            if (id != workingExperience.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(accountProfile).State = EntityState.Modified;
+            _context.Entry(workingExperience).State = EntityState.Modified;
 
             try
             {
@@ -77,7 +91,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!accountProfileExist(id))
+                if (!workingExperienceExist(id))
                 {
                     return NotFound();
                 }
@@ -90,24 +104,9 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
             return NoContent();
         }
 
-        private bool accountProfileExist(long id)
+        private bool workingExperienceExist(long id)
         {
-            return _context.AccountProfiles.Any(e => e.Id == id);
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<AccountProfile>> DeleteAccountProfile(long id)
-        {
-            var accountProfile = await _context.AccountProfiles.FindAsync(id);
-            if (accountProfile == null)
-            {
-                return NotFound();
-            }
-
-            _context.AccountProfiles.Remove(accountProfile);
-            await _context.SaveChangesAsync();
-
-            return accountProfile;
+            return _context.WorkingExperiences.Any(e => e.Id == id);
         }
     }
 }

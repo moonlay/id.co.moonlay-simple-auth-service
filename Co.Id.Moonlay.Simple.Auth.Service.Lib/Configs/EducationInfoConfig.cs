@@ -15,13 +15,6 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Configs
             builder.Property(p => p.Grade).HasMaxLength(25);
             builder.Property(p => p.Institution).HasMaxLength(225);
             builder.Property(p => p.Majors).HasMaxLength(255);
-            builder.Property(p => p.HeldBy).HasMaxLength(255);
-            builder.Property(p => p.Fee).HasMaxLength(255);
-            builder.Property(p => p.Description).HasMaxLength(255);
-            builder.Property(p => p.Company).HasMaxLength(255);
-            builder.Property(p => p.JobPosition).HasMaxLength(255);
-            builder.Property(p => p.FromJob).HasMaxLength(255);
-            builder.Property(p => p.ToJob).HasMaxLength(255);
         }
     }
 }
