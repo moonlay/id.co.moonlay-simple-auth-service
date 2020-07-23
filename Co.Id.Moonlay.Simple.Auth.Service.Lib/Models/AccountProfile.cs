@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Models
@@ -25,24 +26,20 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Models
         public string InfromalEducationHistory { get; set; }
         public string WorkingEXP { get; set; }
 
-        public virtual EducationInfo EducationInfo { get; set; }
         public int EducationInfoId { get; set; }
 
-        public virtual FamilyData Family { get; set; }
         public int FamilyId { get; set; }
-        
-        public virtual Payroll Payroll { get; set; }
 
-        public virtual Asset Asset { get; set; }
+        public int PayrollID { get; set; }
+
+        public int AssetID { get; set; }
 
         public int AccountId { get; set; }
         public virtual Account Account { get; set; }
 
         public string UId { get; set; }
 
-        public int AssetID { get; set; }
 
-        public int PayrollID { get; set; }
 
         public string JobTitleName { get; set; }
         public string Department { get; set; }
