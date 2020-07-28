@@ -55,8 +55,9 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<InformalEducation>> GetinformalEducations(long id)
+        public async Task<ActionResult<InformalEducation>> GetinformalEducations(int id)
         {
+            VerifyUser();
             var informalEducation = await _context.InformalEducations.FindAsync(id);
 
             if (informalEducation == null)
@@ -75,6 +76,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
             {
                 Certificate = informalEducation.Certificate.GetValueOrDefault(),
                 Description = informalEducation.Description,
+                JobPosition = informalEducation.JobPosition,
                 EndDate = informalEducation.EndDate,
                 HeldBy = informalEducation.HeldBy,
                 StartDate = informalEducation.StartDate
@@ -86,14 +88,14 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<InformalEducation>> DeleteInformalEducation(long id)
+        public async Task<ActionResult<InformalEducation>> DeleteInformalEducation(int id)
         {
+            VerifyUser();
             var informalEducation = await _context.InformalEducations.FindAsync(id);
             if (informalEducation == null)
             {
                 return NotFound();
             }
-
             _context.InformalEducations.Remove(informalEducation);
             await _context.SaveChangesAsync();
 
@@ -101,17 +103,26 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutInformalEducation(long id, InformalEducation informalEducation)
+        public async Task<IActionResult> PutInformalEducation(int id, [FromBody] InformalEducationFormViewModel informalEducation)
         {
-            if (id != informalEducation.Id)
+            /*if (id != informalEducation.Id)
             {
                 return BadRequest();
-            }
-
-            _context.Entry(informalEducation).State = EntityState.Modified;
+            }*/
 
             try
             {
+                VerifyUser();
+                var model = await _context.InformalEducations.FindAsync(id);
+                {
+                    model.Description = informalEducation.Description;
+                    model.JobPosition = informalEducation.JobPosition;
+                    model.EndDate = informalEducation.EndDate;
+                    model.HeldBy = informalEducation.HeldBy;
+                    model.StartDate = informalEducation.StartDate;
+                };
+                EntityExtension.FlagForUpdate(model, _identityService.Username, UserAgent);
+                _context.InformalEducations.Update(model);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -129,7 +140,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
             return NoContent();
         }
 
-        private bool informalEducationExist(long id)
+        private bool informalEducationExist(int id)
         {
             return _context.InformalEducations.Any(e => e.Id == id);
         }

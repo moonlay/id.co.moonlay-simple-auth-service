@@ -16,6 +16,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Models
         public string Email { get; set; }
         public string CoorporateEmail { get; set; }
         public string Password { get; set; }
+        public string EmployeePhoneNumber { get; set; }
         public string Status { get; set; }
         public DateTimeOffset? JoinDate { get; set; }
         public string SkillSet { get; set; }
@@ -25,24 +26,15 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Models
         public string InfromalEducationHistory { get; set; }
         public string WorkingEXP { get; set; }
 
-        public virtual EducationInfo EducationInfo { get; set; }
-        public int EducationInfoId { get; set; }
+        //public int PayrollID { get; set; }
 
-        public virtual FamilyData Family { get; set; }
-        public int FamilyId { get; set; }
-        
-        public virtual Payroll Payroll { get; set; }
-
-        public virtual Asset Asset { get; set; }
+        //public int AssetID { get; set; }
 
         public int AccountId { get; set; }
         public virtual Account Account { get; set; }
 
         public string UId { get; set; }
 
-        public int AssetID { get; set; }
-
-        public int PayrollID { get; set; }
 
         public string JobTitleName { get; set; }
         public string Department { get; set; }

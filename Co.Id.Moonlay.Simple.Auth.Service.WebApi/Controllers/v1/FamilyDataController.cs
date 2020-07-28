@@ -1,5 +1,9 @@
 ﻿using Co.Id.Moonlay.Simple.Auth.Service.Lib;
 using Co.Id.Moonlay.Simple.Auth.Service.Lib.Models;
+using Co.Id.Moonlay.Simple.Auth.Service.Lib.Services.IdentityService;
+using Co.Id.Moonlay.Simple.Auth.Service.Lib.Services.ValidateService;
+using Co.Id.Moonlay.Simple.Auth.Service.Lib.ViewModels.Forms;
+using Com.Moonlay.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,12 +20,24 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
     [Authorize]
     public class FamilyDataController : Controller
     {
+        private const string UserAgent = "auth-service";
         private readonly AuthDbContext _context;
         public static readonly string ApiVersion = "1.0.0";
+        private readonly IIdentityService _identityService;
+        private readonly IValidateService _validateService;
 
-        public FamilyDataController(AuthDbContext context)
+        public FamilyDataController(IIdentityService identityService, IValidateService validateService, AuthDbContext dbContext)
         {
-            _context = context;
+            _identityService = identityService;
+            _validateService = validateService;
+            _context = dbContext;
+        }
+
+        protected void VerifyUser()
+        {
+            _identityService.Username = User.Claims.ToArray().SingleOrDefault(p => p.Type.Equals("username")).Value;
+            _identityService.Token = Request.Headers["Authorization"].FirstOrDefault().Replace("Bearer ", "");
+            _identityService.TimezoneOffset = Convert.ToInt32(Request.Headers["x-timezone-offset"]);
         }
 
         [HttpGet]
@@ -31,7 +47,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<FamilyData>> GetFamilyDatas(long id)
+        public async Task<ActionResult<FamilyData>> GetFamilyDatas(int id)
         {
             var familyData = await _context.FamilyDatas.FindAsync(id);
 
@@ -44,16 +60,30 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
         }
 
         [HttpPost]
-        public async Task<ActionResult<FamilyData>> PostFamilyData(FamilyData familyData)
+        public async Task<ActionResult<FamilyData>> PostFamilyData( [FromBody] FamilyDataFormViewModel familyData)
         {
-            _context.FamilyDatas.Add(familyData);
+            VerifyUser();
+            var model = new FamilyData()
+            {
+                FullNameOfFamily = familyData.FullNameOfFamily,
+                Relationship = familyData.Relationship,
+                DOBFamily = familyData.DOBFamily,
+                Religion = familyData.Religion,
+                Gender = familyData.Gender,
+                KTPNumber = familyData.KTPNumber,
+                NameOfContact = familyData.NameOfContact,
+                PhoneNumber = familyData.PhoneNumber
+            };
+            EntityExtension.FlagForCreate(model, _identityService.Username, UserAgent);
+            _context.FamilyDatas.Add(model);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(FamilyData), new { id = familyData.Id }, familyData);
+            return Created("", model);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<FamilyData>> DeleteFamilyData(long id)
+        public async Task<ActionResult<FamilyData>> DeleteFamilyData(int id)
         {
+            VerifyUser();
             var familyData = await _context.FamilyDatas.FindAsync(id);
             if (familyData == null)
             {
@@ -67,17 +97,29 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutFamilyData(long id, FamilyData familyData)
+        public async Task<IActionResult> PutFamilyData(int id, [FromBody] FamilyDataFormViewModel familyData)
         {
-            if (id != familyData.Id)
+            /*if (id != familyData.Id)
             {
                 return BadRequest();
-            }
-
-            _context.Entry(familyData).State = EntityState.Modified;
+            }*/
 
             try
             {
+                VerifyUser();
+                var model = await _context.FamilyDatas.FindAsync(id);
+                {
+                    model.FullNameOfFamily = familyData.FullNameOfFamily;
+                    model.Relationship = familyData.Relationship;
+                    model.DOBFamily = familyData.DOBFamily;
+                    model.Gender = familyData.Gender;
+                    model.Religion = familyData.Religion;
+                    model.KTPNumber = familyData.KTPNumber;
+                    model.NameOfContact = familyData.NameOfContact;
+                    model.PhoneNumber = familyData.PhoneNumber;
+                };
+                EntityExtension.FlagForUpdate(model, _identityService.Username, UserAgent);
+                _context.FamilyDatas.Update(model);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)

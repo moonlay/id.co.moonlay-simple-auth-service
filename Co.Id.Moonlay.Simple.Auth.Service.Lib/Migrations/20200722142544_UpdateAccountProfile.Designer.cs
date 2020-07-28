@@ -4,14 +4,16 @@ using Co.Id.Moonlay.Simple.Auth.Service.Lib;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    partial class AuthDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200722142544_UpdateAccountProfile")]
+    partial class UpdateAccountProfile
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,6 +87,8 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Migrations
 
                     b.Property<bool>("Active");
 
+                    b.Property<int?>("AssetId");
+
                     b.Property<string>("CoorporateEmail")
                         .HasMaxLength(225);
 
@@ -125,8 +129,6 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Migrations
                     b.Property<string>("EmployeeID")
                         .HasMaxLength(255);
 
-                    b.Property<string>("EmployeePhoneNumber");
-
                     b.Property<string>("FamilyData")
                         .HasMaxLength(255);
 
@@ -159,6 +161,8 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Migrations
                     b.Property<string>("Password")
                         .HasMaxLength(25);
 
+                    b.Property<int?>("PayrollId");
+
                     b.Property<string>("Religion")
                         .HasMaxLength(15);
 
@@ -178,6 +182,10 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Migrations
 
                     b.HasIndex("AccountId")
                         .IsUnique();
+
+                    b.HasIndex("AssetId");
+
+                    b.HasIndex("PayrollId");
 
                     b.ToTable("AccountProfiles");
                 });
@@ -358,60 +366,6 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Migrations
                     b.ToTable("EducationInfos");
                 });
 
-            modelBuilder.Entity("Co.Id.Moonlay.Simple.Auth.Service.Lib.Models.EmergencyContact", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("Active");
-
-                    b.Property<string>("CreatedAgent")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<DateTime>("CreatedUtc");
-
-                    b.Property<string>("DeletedAgent")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<string>("DeletedBy")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<DateTime>("DeletedUtc");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<string>("LastModifiedAgent")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<string>("LastModifiedBy")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<DateTime>("LastModifiedUtc");
-
-                    b.Property<string>("NameOfContact")
-                        .HasMaxLength(225);
-
-                    b.Property<string>("PhoneNumber")
-                        .HasMaxLength(20);
-
-                    b.Property<string>("Relationship")
-                        .HasMaxLength(25);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("EmergencyContacts");
-                });
-
             modelBuilder.Entity("Co.Id.Moonlay.Simple.Auth.Service.Lib.Models.FamilyData", b =>
                 {
                     b.Property<int>("Id")
@@ -521,8 +475,6 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Migrations
                         .HasMaxLength(255);
 
                     b.Property<bool>("IsDeleted");
-
-                    b.Property<string>("JobPosition");
 
                     b.Property<string>("LastModifiedAgent")
                         .IsRequired()
@@ -820,6 +772,14 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Migrations
                         .WithOne("AccountProfile")
                         .HasForeignKey("Co.Id.Moonlay.Simple.Auth.Service.Lib.Models.AccountProfile", "AccountId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Co.Id.Moonlay.Simple.Auth.Service.Lib.Models.Asset", "Asset")
+                        .WithMany()
+                        .HasForeignKey("AssetId");
+
+                    b.HasOne("Co.Id.Moonlay.Simple.Auth.Service.Lib.Models.Payroll", "Payroll")
+                        .WithMany()
+                        .HasForeignKey("PayrollId");
                 });
 
             modelBuilder.Entity("Co.Id.Moonlay.Simple.Auth.Service.Lib.Models.AccountRole", b =>

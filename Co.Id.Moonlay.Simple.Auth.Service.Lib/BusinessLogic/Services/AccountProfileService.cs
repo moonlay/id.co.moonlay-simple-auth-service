@@ -40,10 +40,8 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.BusinessLogic.Services
         public async Task<int> CreateAsync(AccountProfile model)
         {
             EntityExtension.FlagForCreate(model, IdentityService.Username, UserAgent);
-            EntityExtension.FlagForCreate(model.Asset, IdentityService.Username, UserAgent);
-            EntityExtension.FlagForCreate(model.Payroll, IdentityService.Username, UserAgent);
-            EntityExtension.FlagForCreate(model.Family, IdentityService.Username, UserAgent);
-            EntityExtension.FlagForCreate(model.EducationInfo, IdentityService.Username, UserAgent);
+            //EntityExtension.FlagForCreate(model.Asset, IdentityService.Username, UserAgent);
+            //EntityExtension.FlagForCreate(model.Payroll, IdentityService.Username, UserAgent);
             DbSet.Add(model);
             return await DbContext.SaveChangesAsync();
         }
@@ -52,10 +50,8 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.BusinessLogic.Services
         {
             AccountProfile model = await ReadByIdAsync(id);
             EntityExtension.FlagForDelete(model, IdentityService.Username, UserAgent, true);
-            EntityExtension.FlagForDelete(model.Asset, IdentityService.Username, UserAgent, true);
-            EntityExtension.FlagForDelete(model.Payroll, IdentityService.Username, UserAgent, true);
-            EntityExtension.FlagForDelete(model.Family, IdentityService.Username, UserAgent, true);
-            EntityExtension.FlagForDelete(model.EducationInfo, IdentityService.Username, UserAgent, true);
+            //EntityExtension.FlagForDelete(model.Asset, IdentityService.Username, UserAgent, true);
+            //EntityExtension.FlagForDelete(model.Payroll, IdentityService.Username, UserAgent, true);
             DbSet.Update(model);
             return await DbContext.SaveChangesAsync();
         }

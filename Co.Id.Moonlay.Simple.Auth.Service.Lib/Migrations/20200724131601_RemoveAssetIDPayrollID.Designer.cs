@@ -4,14 +4,16 @@ using Co.Id.Moonlay.Simple.Auth.Service.Lib;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    partial class AuthDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200724131601_RemoveAssetIDPayrollID")]
+    partial class RemoveAssetIDPayrollID
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -124,8 +126,6 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Migrations
 
                     b.Property<string>("EmployeeID")
                         .HasMaxLength(255);
-
-                    b.Property<string>("EmployeePhoneNumber");
 
                     b.Property<string>("FamilyData")
                         .HasMaxLength(255);
@@ -247,6 +247,8 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("AccountProfileId");
+
                     b.Property<DateTimeOffset?>("AcquisitionDate");
 
                     b.Property<bool>("Active");
@@ -294,6 +296,8 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Migrations
                     b.Property<DateTime>("LastModifiedUtc");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AccountProfileId");
 
                     b.ToTable("Assets");
                 });
@@ -522,8 +526,6 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Migrations
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<string>("JobPosition");
-
                     b.Property<string>("LastModifiedAgent")
                         .IsRequired()
                         .HasMaxLength(255);
@@ -546,6 +548,8 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("AccountProfileId");
 
                     b.Property<bool>("Active");
 
@@ -625,6 +629,8 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Migrations
                         .HasMaxLength(255);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AccountProfileId");
 
                     b.ToTable("Payrolls");
                 });
@@ -833,6 +839,20 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Migrations
                         .WithMany("AccountRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Co.Id.Moonlay.Simple.Auth.Service.Lib.Models.Asset", b =>
+                {
+                    b.HasOne("Co.Id.Moonlay.Simple.Auth.Service.Lib.Models.AccountProfile", "AccountProfile")
+                        .WithMany()
+                        .HasForeignKey("AccountProfileId");
+                });
+
+            modelBuilder.Entity("Co.Id.Moonlay.Simple.Auth.Service.Lib.Models.Payroll", b =>
+                {
+                    b.HasOne("Co.Id.Moonlay.Simple.Auth.Service.Lib.Models.AccountProfile", "AccountProfile")
+                        .WithMany()
+                        .HasForeignKey("AccountProfileId");
                 });
 
             modelBuilder.Entity("Co.Id.Moonlay.Simple.Auth.Service.Lib.Models.Permission", b =>

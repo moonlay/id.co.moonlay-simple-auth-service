@@ -1,10 +1,7 @@
-﻿using AutoMapper;
-using Co.Id.Moonlay.Simple.Auth.Service.Lib;
-using Co.Id.Moonlay.Simple.Auth.Service.Lib.BusinessLogic.Interfaces;
+﻿using Co.Id.Moonlay.Simple.Auth.Service.Lib;
 using Co.Id.Moonlay.Simple.Auth.Service.Lib.Models;
 using Co.Id.Moonlay.Simple.Auth.Service.Lib.Services.IdentityService;
 using Co.Id.Moonlay.Simple.Auth.Service.Lib.Services.ValidateService;
-using Co.Id.Moonlay.Simple.Auth.Service.Lib.ViewModels;
 using Co.Id.Moonlay.Simple.Auth.Service.Lib.ViewModels.Forms;
 using Com.Moonlay.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -19,88 +16,66 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
 {
     [Produces("application/json")]
     [ApiVersion("1.0")]
-    [Route("v{version:apiVersion}/educationinfo")]
+    [Route("v{version:apiVersion}/familydata/emergencyContact")]
     [Authorize]
-    public class EducationInfoController : Controller
+    public class EmergencyContactController : Controller
     {
         private const string UserAgent = "auth-service";
         private readonly AuthDbContext _context;
         public static readonly string ApiVersion = "1.0.0";
         private readonly IIdentityService _identityService;
         private readonly IValidateService _validateService;
-
-        public EducationInfoController(IIdentityService identityService, IValidateService validateService, AuthDbContext dbContext)
+        public EmergencyContactController(IIdentityService identityService, IValidateService validateService, AuthDbContext dbContext)
         {
             _identityService = identityService;
             _validateService = validateService;
             _context = dbContext;
         }
-
         protected void VerifyUser()
         {
             _identityService.Username = User.Claims.ToArray().SingleOrDefault(p => p.Type.Equals("username")).Value;
             _identityService.Token = Request.Headers["Authorization"].FirstOrDefault().Replace("Bearer ", "");
             _identityService.TimezoneOffset = Convert.ToInt32(Request.Headers["x-timezone-offset"]);
         }
-
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EducationInfo>>> GetEducationInfos()
+        public async Task<ActionResult<IEnumerable<EmergencyContact>>> GetEmergencyContact()
         {
-            return await _context.EducationInfos.ToListAsync();
+            return await _context.EmergencyContacts.ToListAsync();
         }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<EducationInfo>> GetEducationInfos(int id)
-        {
-            var educationInfo = await _context.EducationInfos.FindAsync(id);
-
-            if (educationInfo == null)
-            {
-                return NotFound();
-            }
-
-            return educationInfo;
-        }
-
         [HttpPost]
-        public async Task<ActionResult<EducationInfo>> PostEducationInfos( [FromBody] EducationInfoFormViewModel educationInfo)
+        public async Task<ActionResult<EmergencyContact>> PostEmergencyContact([FromBody] EmergencyContactFormViewModel emergencyContact)
         {
             VerifyUser();
-            var model = new EducationInfo()
+            var model = new EmergencyContact()
             {
-                EducationInfoId = educationInfo.EducationInfoId,
-                Grade = educationInfo.Grade,
-                Institution = educationInfo.Institution,
-                Majors = educationInfo.Majors,
-                YearStart = educationInfo.YearStart,
-                YearEnd = educationInfo.YearEnd
+                NameOfContact = emergencyContact.NameOfContact,
+                Relationship = emergencyContact.Relationship,
+                PhoneNumber = emergencyContact.PhoneNumber
             };
             EntityExtension.FlagForCreate(model, _identityService.Username, UserAgent);
-            _context.EducationInfos.Add(model);
+            _context.EmergencyContacts.Add(model);
             await _context.SaveChangesAsync();
             return Created("", model);
         }
-
         [HttpDelete("{id}")]
-        public async Task<ActionResult<EducationInfo>> DeleteEducationInfo(int id)
+        public async Task<ActionResult<EmergencyContact>> DeleteEmergencyContact(int id)
         {
             VerifyUser();
-            var educationInfo = await _context.EducationInfos.FindAsync(id);
-            if (educationInfo == null)
+            var emergencyContact = await _context.EmergencyContacts.FindAsync(id);
+            if (emergencyContact == null)
             {
                 return NotFound();
             }
 
-            _context.EducationInfos.Remove(educationInfo);
+            _context.EmergencyContacts.Remove(emergencyContact);
             await _context.SaveChangesAsync();
 
-            return educationInfo;
+            return emergencyContact;
         }
-
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEducationInfo(int id, [FromBody] EducationInfoFormViewModel educationInfo)
+        public async Task<IActionResult> PutEmergencyCintact(long id, [FromBody] EmergencyContactFormViewModel emergencyContact)
         {
-            /*if (id != educationInfo.Id)
+            /*if (id != emergency.Id)
             {
                 return BadRequest();
             }*/
@@ -108,21 +83,19 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
             try
             {
                 VerifyUser();
-                var model = await _context.EducationInfos.FindAsync(id);
+                var model = await _context.EmergencyContacts.FindAsync(id);
                 {
-                    model.Grade = educationInfo.Grade;
-                    model.Majors = educationInfo.Majors;
-                    model.Institution = educationInfo.Institution;
-                    model.YearStart = educationInfo.YearStart;
-                    model.YearEnd = educationInfo.YearEnd;
+                    model.NameOfContact = emergencyContact.NameOfContact;
+                    model.Relationship = emergencyContact.Relationship;
+                    model.PhoneNumber = emergencyContact.PhoneNumber;
                 };
                 EntityExtension.FlagForUpdate(model, _identityService.Username, UserAgent);
-                _context.EducationInfos.Update(model);
+                _context.EmergencyContacts.Update(model);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!educationInfoExist(id))
+                if (!emergencyContactExist(id))
                 {
                     return NotFound();
                 }
@@ -135,9 +108,9 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
             return NoContent();
         }
 
-        private bool educationInfoExist(long id)
+        private bool emergencyContactExist(long id)
         {
-            return _context.EducationInfos.Any(e => e.Id == id);
+            throw new NotImplementedException();
         }
     }
 }

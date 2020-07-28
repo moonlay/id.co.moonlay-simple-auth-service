@@ -40,7 +40,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.AutoMapperProfiles
                 .ForPath(d => d.bankbranch, opt => opt.MapFrom(s => s.BankBranch))
                 .ReverseMap();
 
-            /*CreateMap<AccountRole, RoleViewModel>()
+            CreateMap<AccountRole, RoleViewModel>()
                 .ForPath(d => d.code, opt => opt.MapFrom(s => s.Role.Code))
                 .ForPath(d => d.description, opt => opt.MapFrom(s => s.Role.Description))
                 .ForPath(d => d.name, opt => opt.MapFrom(s => s.Role.Name))
@@ -64,7 +64,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.AutoMapperProfiles
                 .ForPath(d => d.isLocked, opt => opt.MapFrom(s => s.IsLocked))
                 .ForPath(d => d.profile, opt => opt.MapFrom(s => s.AccountProfile))
                 .ForPath(d => d.roles, opt => opt.MapFrom(s => s.AccountRoles))
-                .ReverseMap();*/
+                .ReverseMap();
 
 
         }

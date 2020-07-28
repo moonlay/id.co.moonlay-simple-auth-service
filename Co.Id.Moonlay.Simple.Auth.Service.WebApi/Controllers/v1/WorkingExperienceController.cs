@@ -6,7 +6,9 @@ using Co.Id.Moonlay.Simple.Auth.Service.Lib.Models;
 using Co.Id.Moonlay.Simple.Auth.Service.Lib.Services.IdentityService;
 using Co.Id.Moonlay.Simple.Auth.Service.Lib.Services.ValidateService;
 using Co.Id.Moonlay.Simple.Auth.Service.Lib.ViewModels;
+using Co.Id.Moonlay.Simple.Auth.Service.Lib.ViewModels.Forms;
 using Co.Id.Moonlay.Simple.Auth.Service.WebApi.Utilities;
+using Com.Moonlay.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -25,12 +27,24 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
 
     public class WorkingExperienceController : Controller
     {
+        private const string UserAgent = "auth-service";
         private readonly AuthDbContext _context;
         public static readonly string ApiVersion = "1.0.0";
+        private readonly IIdentityService _identityService;
+        private readonly IValidateService _validateService;
 
-        public WorkingExperienceController(AuthDbContext context)
+        public WorkingExperienceController(IIdentityService identityService, IValidateService validateService, AuthDbContext dbContext)
         {
-            _context = context;
+            _identityService = identityService;
+            _validateService = validateService;
+            _context = dbContext;
+        }
+
+        protected void VerifyUser()
+        {
+            _identityService.Username = User.Claims.ToArray().SingleOrDefault(p => p.Type.Equals("username")).Value;
+            _identityService.Token = Request.Headers["Authorization"].FirstOrDefault().Replace("Bearer ", "");
+            _identityService.TimezoneOffset = Convert.ToInt32(Request.Headers["x-timezone-offset"]);
         }
 
         [HttpGet]
@@ -40,7 +54,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<WorkingExperience>> GetWorkingExperiences(long id)
+        public async Task<ActionResult<WorkingExperience>> GetWorkingExperiences(int id)
         {
             var workingExperience = await _context.WorkingExperiences.FindAsync(id);
 
@@ -53,16 +67,29 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
         }
 
         [HttpPost]
-        public async Task<ActionResult<WorkingExperience>> PostWorkingExperience(WorkingExperience workingExperience)
+        public async Task<ActionResult<WorkingExperience>> PostWorkingExperience( [FromBody] WorkingExperienceFormViewModel workingExperience)
         {
-            _context.WorkingExperiences.Add(workingExperience);
+            VerifyUser();
+            var model = new WorkingExperience()
+            {
+                Company = workingExperience.Company,
+                JobPosition = workingExperience.JobPosition,
+                TanggalMulai = workingExperience.TanggalMulai,
+                TanggalSelesai = workingExperience.TanggalSelesai,
+                Deskripsi = workingExperience.Deskripsi,
+                Sertifikat = workingExperience.Sertifikat.GetValueOrDefault()
+
+            };
+            EntityExtension.FlagForCreate(model, _identityService.Username, UserAgent);
+            _context.WorkingExperiences.Add(model);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(WorkingExperience), new { id = workingExperience.Id }, workingExperience);
+            return Created("", model);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<WorkingExperience>> DeleteWorkingExperience(long id)
+        public async Task<ActionResult<WorkingExperience>> DeleteWorkingExperience(int id)
         {
+            VerifyUser();
             var workingExperience = await _context.WorkingExperiences.FindAsync(id);
             if (workingExperience == null)
             {
@@ -76,17 +103,26 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutWorkingExperience(long id, WorkingExperience workingExperience)
+        public async Task<IActionResult> PutWorkingExperience(int id, [FromBody] WorkingExperienceFormViewModel workingExperience)
         {
-            if (id != workingExperience.Id)
+            /*if (id != workingExperience.Id)
             {
                 return BadRequest();
-            }
-
-            _context.Entry(workingExperience).State = EntityState.Modified;
+            }*/
 
             try
             {
+                VerifyUser();
+                var model = await _context.WorkingExperiences.FindAsync(id);
+                {
+                    model.Company = workingExperience.Company;
+                    model.JobPosition = workingExperience.JobPosition;
+                    model.TanggalMulai = workingExperience.TanggalMulai;
+                    model.TanggalSelesai = workingExperience.TanggalSelesai;
+                    model.Deskripsi = workingExperience.Deskripsi;
+                };
+                EntityExtension.FlagForUpdate(model, _identityService.Username, UserAgent);
+                _context.WorkingExperiences.Update(model);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)

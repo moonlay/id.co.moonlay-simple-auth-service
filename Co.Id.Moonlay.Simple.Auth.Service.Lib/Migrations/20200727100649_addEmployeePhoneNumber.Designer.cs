@@ -4,14 +4,16 @@ using Co.Id.Moonlay.Simple.Auth.Service.Lib;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    partial class AuthDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200727100649_addEmployeePhoneNumber")]
+    partial class addEmployeePhoneNumber
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -521,8 +523,6 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Migrations
                         .HasMaxLength(255);
 
                     b.Property<bool>("IsDeleted");
-
-                    b.Property<string>("JobPosition");
 
                     b.Property<string>("LastModifiedAgent")
                         .IsRequired()

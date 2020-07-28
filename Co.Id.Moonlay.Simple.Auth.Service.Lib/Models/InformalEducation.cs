@@ -8,6 +8,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Models
     public class InformalEducation : StandardEntity
     {
         public string HeldBy { get; set; }
+        public string JobPosition { get; set; }
         public DateTimeOffset? StartDate { get; set; }
         public DateTimeOffset? EndDate { get; set; }
         public string Description { get; set; }

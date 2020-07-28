@@ -29,7 +29,6 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Configs
             builder.Property(p => p.JobTitleName).HasMaxLength(20);
             builder.Property(p => p.Department).HasMaxLength(20);
 
-            //builder.HasKey(p => p.FamilyData);
         }
     }
 }
