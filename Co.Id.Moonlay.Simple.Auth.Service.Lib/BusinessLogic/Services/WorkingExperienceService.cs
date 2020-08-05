@@ -70,7 +70,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.BusinessLogic.Services
             {
                 Id = x.Id,
                 Company = x.Company,
-                JobPosition = x.JobPosition,
+                JobPositionExperience = x.JobPositionExperience,
                 TanggalMulai = x.TanggalMulai,
                 TanggalSelesai = x.TanggalSelesai,
                 Deskripsi = x.Deskripsi,
@@ -95,7 +95,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.BusinessLogic.Services
             var data = await ReadByIdAsync(id);
 
             data.Company = model.Company;
-            data.JobPosition = model.JobPosition;
+            data.JobPositionExperience = model.JobPositionExperience;
             data.TanggalMulai = model.TanggalMulai;
             data.TanggalSelesai = model.TanggalSelesai;
             data.Deskripsi = model.Deskripsi;

@@ -14,9 +14,5 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Models
         public string Gender { get; set; }
         public string KTPNumber { get; set; }
 
-        //Emergency Contact
-        public int FamilyId { get; set; }
-        public string NameOfContact { get; set; }
-        public string PhoneNumber { get; set; }
     }
 }

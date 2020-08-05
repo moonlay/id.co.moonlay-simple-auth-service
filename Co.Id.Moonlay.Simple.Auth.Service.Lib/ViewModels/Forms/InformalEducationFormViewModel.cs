@@ -13,6 +13,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.ViewModels.Forms
         public DateTimeOffset? EndDate { get; set; }
         public string Description { get; set; }
         public bool? Certificate { get; set; }
+        public string FileURL { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

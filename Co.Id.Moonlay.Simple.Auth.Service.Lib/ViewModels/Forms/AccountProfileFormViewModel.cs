@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Co.Id.Moonlay.Simple.Auth.Service.Lib.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -7,7 +8,6 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.ViewModels.Forms
 {
     public class AccountProfileFormViewModel : IValidatableObject
     {
-        public int id { get; set; }
         public string Fullname { get; set; }
         public string EmployeeId { get; set; }
         public DateTimeOffset? DOB { get; set; }
@@ -38,6 +38,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.ViewModels.Forms
         public string Bank { get; set; }
         public string BankAccountNumber { get; set; }
         public string BankBranch { get; set; }
+        //public int AccountId { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

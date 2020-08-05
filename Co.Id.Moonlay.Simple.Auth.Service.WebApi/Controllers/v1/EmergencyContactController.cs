@@ -42,6 +42,20 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
         {
             return await _context.EmergencyContacts.ToListAsync();
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<EmergencyContact>> GetEmegencyContactById(int id)
+        {
+            var emergencyContact = await _context.EmergencyContacts.FindAsync(id);
+
+            if (emergencyContact == null)
+            {
+                return NotFound();
+            }
+
+            return emergencyContact;
+        }
+
         [HttpPost]
         public async Task<ActionResult<EmergencyContact>> PostEmergencyContact([FromBody] EmergencyContactFormViewModel emergencyContact)
         {
@@ -73,7 +87,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
             return emergencyContact;
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEmergencyCintact(long id, [FromBody] EmergencyContactFormViewModel emergencyContact)
+        public async Task<IActionResult> PutEmergencyCintact(int id, [FromBody] EmergencyContactFormViewModel emergencyContact)
         {
             /*if (id != emergency.Id)
             {
@@ -95,7 +109,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!emergencyContactExist(id))
+                if (!EmergencyContactExist(id))
                 {
                     return NotFound();
                 }
@@ -108,7 +122,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
             return NoContent();
         }
 
-        private bool emergencyContactExist(long id)
+        private bool EmergencyContactExist(long id)
         {
             throw new NotImplementedException();
         }

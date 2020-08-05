@@ -12,7 +12,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Configs
         public void Configure(EntityTypeBuilder<WorkingExperience> builder)
         {
             builder.Property(p => p.Company).HasMaxLength(255);
-            builder.Property(p => p.JobPosition).HasMaxLength(255);
+            builder.Property(p => p.JobPositionExperience).HasMaxLength(255);
             builder.Property(p => p.Deskripsi).HasMaxLength(255);
         }
     }

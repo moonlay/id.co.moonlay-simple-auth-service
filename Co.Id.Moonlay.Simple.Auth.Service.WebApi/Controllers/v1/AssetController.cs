@@ -75,6 +75,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
                 AssetNumber = asset.AssetNumber,
                 AssetName = asset.AssetName,
                 AssetType = asset.AssetType,
+                FullNameEmployeeAsset = asset.FullNameEmployeeAsset,
                 AcquisitionDate = asset.AcquisitionDate
             };
             EntityExtension.FlagForCreate(model, _identityService.Username, UserAgent);
@@ -114,6 +115,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
                     model.AssetNumber = asset.AssetNumber;
                     model.AssetName = asset.AssetName;
                     model.AssetType = asset.AssetType;
+                    model.FullNameEmployeeAsset = asset.FullNameEmployeeAsset;
                     model.AcquisitionDate = asset.AcquisitionDate;
                 };
                 EntityExtension.FlagForUpdate(model, _identityService.Username, UserAgent);

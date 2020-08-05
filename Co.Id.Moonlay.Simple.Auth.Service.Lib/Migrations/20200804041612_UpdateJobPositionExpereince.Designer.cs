@@ -4,14 +4,16 @@ using Co.Id.Moonlay.Simple.Auth.Service.Lib;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    partial class AuthDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200804041612_UpdateJobPositionExpereince")]
+    partial class UpdateJobPositionExpereince
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -113,7 +115,13 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Migrations
 
                     b.Property<DateTimeOffset?>("Dob");
 
+                    b.Property<string>("EducationHistory")
+                        .HasMaxLength(255);
+
                     b.Property<string>("Email")
+                        .HasMaxLength(255);
+
+                    b.Property<string>("EmergencyContact")
                         .HasMaxLength(255);
 
                     b.Property<string>("EmployeeID")
@@ -121,11 +129,17 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Migrations
 
                     b.Property<string>("EmployeePhoneNumber");
 
+                    b.Property<string>("FamilyData")
+                        .HasMaxLength(255);
+
                     b.Property<string>("Fullname")
                         .HasMaxLength(255);
 
                     b.Property<string>("Gender")
                         .HasMaxLength(6);
+
+                    b.Property<string>("InfromalEducationHistory")
+                        .HasMaxLength(255);
 
                     b.Property<bool>("IsDeleted");
 
@@ -157,6 +171,9 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Migrations
                         .HasMaxLength(25);
 
                     b.Property<string>("UId")
+                        .HasMaxLength(255);
+
+                    b.Property<string>("WorkingEXP")
                         .HasMaxLength(255);
 
                     b.HasKey("Id");
@@ -429,6 +446,8 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Migrations
 
                     b.Property<DateTime>("DeletedUtc");
 
+                    b.Property<int>("FamilyId");
+
                     b.Property<string>("FullNameOfFamily")
                         .HasMaxLength(255);
 
@@ -449,6 +468,12 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Migrations
                         .HasMaxLength(255);
 
                     b.Property<DateTime>("LastModifiedUtc");
+
+                    b.Property<string>("NameOfContact")
+                        .HasMaxLength(255);
+
+                    b.Property<string>("PhoneNumber")
+                        .HasMaxLength(255);
 
                     b.Property<string>("Relationship")
                         .HasMaxLength(20);
@@ -530,11 +555,14 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Migrations
 
                     b.Property<bool>("Active");
 
-                    b.Property<double>("Allowance");
+                    b.Property<string>("Allowance")
+                        .HasMaxLength(255);
 
-                    b.Property<double>("BPJSKesehatan");
+                    b.Property<string>("BPJSKesehatan")
+                        .HasMaxLength(255);
 
-                    b.Property<double>("BPJSTenagaKerja");
+                    b.Property<string>("BPJSTenagaKerja")
+                        .HasMaxLength(255);
 
                     b.Property<DateTimeOffset>("BackDatedPayment");
 
@@ -567,7 +595,8 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Migrations
 
                     b.Property<DateTime>("DeletedUtc");
 
-                    b.Property<double>("Incentive");
+                    b.Property<string>("Incentive")
+                        .HasMaxLength(255);
 
                     b.Property<bool>("IsDeleted");
 
@@ -583,25 +612,27 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Migrations
 
                     b.Property<string>("Month");
 
-                    b.Property<double>("NPWP");
+                    b.Property<string>("NPWP")
+                        .HasMaxLength(255);
 
                     b.Property<string>("NameBankAccount")
                         .HasMaxLength(255);
 
-                    b.Property<double>("PaidLeave");
+                    b.Property<string>("PaidLeave")
+                        .HasMaxLength(255);
 
                     b.Property<int>("PayrollID");
 
-                    b.Property<double>("Salary");
+                    b.Property<string>("Salary")
+                        .HasMaxLength(255);
 
                     b.Property<string>("SalaryPeriod")
                         .HasMaxLength(255);
 
-                    b.Property<double>("TakeHomePay");
+                    b.Property<string>("TakeHomePay");
 
-                    b.Property<double>("Tax");
-
-                    b.Property<double>("UnPaidLeave");
+                    b.Property<string>("Tax")
+                        .HasMaxLength(255);
 
                     b.Property<int>("Year");
 

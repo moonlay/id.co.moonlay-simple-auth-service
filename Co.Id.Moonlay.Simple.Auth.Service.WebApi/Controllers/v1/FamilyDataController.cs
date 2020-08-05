@@ -70,9 +70,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
                 DOBFamily = familyData.DOBFamily,
                 Religion = familyData.Religion,
                 Gender = familyData.Gender,
-                KTPNumber = familyData.KTPNumber,
-                NameOfContact = familyData.NameOfContact,
-                PhoneNumber = familyData.PhoneNumber
+                KTPNumber = familyData.KTPNumber
             };
             EntityExtension.FlagForCreate(model, _identityService.Username, UserAgent);
             _context.FamilyDatas.Add(model);
@@ -115,8 +113,6 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
                     model.Gender = familyData.Gender;
                     model.Religion = familyData.Religion;
                     model.KTPNumber = familyData.KTPNumber;
-                    model.NameOfContact = familyData.NameOfContact;
-                    model.PhoneNumber = familyData.PhoneNumber;
                 };
                 EntityExtension.FlagForUpdate(model, _identityService.Username, UserAgent);
                 _context.FamilyDatas.Update(model);
@@ -124,7 +120,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!accountProfileExist(id))
+                if (!AccountProfileExist(id))
                 {
                     return NotFound();
                 }
@@ -137,7 +133,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
             return NoContent();
         }
 
-        private bool accountProfileExist(long id)
+        private bool AccountProfileExist(long id)
         {
             return _context.FamilyDatas.Any(e => e.Id == id);
         }

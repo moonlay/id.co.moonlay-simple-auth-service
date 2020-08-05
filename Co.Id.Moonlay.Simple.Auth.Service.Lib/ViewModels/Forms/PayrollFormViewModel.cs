@@ -1,13 +1,11 @@
-﻿using Com.Moonlay.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
-using System.Globalization;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Models
+namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.ViewModels.Forms
 {
-    public class Payroll : StandardEntity
+    public class PayrollFormViewModel : IValidatableObject
     {
         public int PayrollID { get; set; }
         public string Salary { get; set; }
@@ -28,5 +26,9 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Models
         public string Month { get; set; }
         public int Year { get; set; }
         public string TakeHomePay { get; set; }
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

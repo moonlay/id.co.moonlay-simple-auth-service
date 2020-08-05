@@ -11,6 +11,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Models
         public int AssetNumber { get; set; }
         public string AssetType { get; set; }
         public string AssetName { get; set; }
+        public string FullNameEmployeeAsset { get; set; }
         public DateTimeOffset? AcquisitionDate { get; set; }
     }
 }

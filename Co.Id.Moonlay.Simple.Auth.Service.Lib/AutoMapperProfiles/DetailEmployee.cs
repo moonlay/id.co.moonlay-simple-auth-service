@@ -40,9 +40,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.AutoMapperProfiles
                 .ForPath(d => d.ktpNumber, opt => opt.MapFrom(s => s.KTPNumber))
 
                 //Emergency Contact
-                .ForPath(d => d.nameOfcontact, opt => opt.MapFrom(s => s.NameOfContact))
                 .ForPath(d => d.relationship, opt => opt.MapFrom(s => s.Relationship))
-                .ForPath(d => d.phonenumber, opt => opt.MapFrom(s => s.PhoneNumber))
                 .ReverseMap();
 
             //Education Info
@@ -66,7 +64,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.AutoMapperProfiles
             //Working Experience
             CreateMap<Models.WorkingExperience, WorkingExperienceViewModel>()
                 .ForPath(d => d.company, opt => opt.MapFrom(s => s.Company))
-                .ForPath(d => d.jobposition, opt => opt.MapFrom(s => s.JobPosition))
+                .ForPath(d => d.jobposition, opt => opt.MapFrom(s => s.JobPositionExperience))
                 .ForPath(d => d.startDate, opt => opt.MapFrom(s => s.TanggalMulai))
                 .ForPath(d => d.endDate, opt => opt.MapFrom(s => s.TanggalSelesai))
                 .ForPath(d => d.deskripsi, opt => opt.MapFrom(s => s.Deskripsi))

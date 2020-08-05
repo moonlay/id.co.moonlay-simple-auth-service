@@ -1,10 +1,7 @@
-﻿using AutoMapper;
-using Co.Id.Moonlay.Simple.Auth.Service.Lib;
-using Co.Id.Moonlay.Simple.Auth.Service.Lib.BusinessLogic.Interfaces;
+﻿using Co.Id.Moonlay.Simple.Auth.Service.Lib;
 using Co.Id.Moonlay.Simple.Auth.Service.Lib.Models;
 using Co.Id.Moonlay.Simple.Auth.Service.Lib.Services.IdentityService;
 using Co.Id.Moonlay.Simple.Auth.Service.Lib.Services.ValidateService;
-using Co.Id.Moonlay.Simple.Auth.Service.Lib.ViewModels;
 using Co.Id.Moonlay.Simple.Auth.Service.Lib.ViewModels.Forms;
 using Com.Moonlay.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -19,9 +16,9 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
 {
     [Produces("application/json")]
     [ApiVersion("1.0")]
-    [Route("v{version:apiVersion}/educationinfo")]
+    [Route("v{version:apiVersion}/payroll/payslip")]
     [Authorize]
-    public class EducationInfoController : Controller
+    public class PayslipController : Controller
     {
         private const string UserAgent = "auth-service";
         private readonly AuthDbContext _context;
@@ -29,13 +26,12 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
         private readonly IIdentityService _identityService;
         private readonly IValidateService _validateService;
 
-        public EducationInfoController(IIdentityService identityService, IValidateService validateService, AuthDbContext dbContext)
+        public PayslipController(IIdentityService identityService, IValidateService validateService, AuthDbContext dbContext)
         {
             _identityService = identityService;
             _validateService = validateService;
             _context = dbContext;
         }
-
         protected void VerifyUser()
         {
             _identityService.Username = User.Claims.ToArray().SingleOrDefault(p => p.Type.Equals("username")).Value;
@@ -44,63 +40,67 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EducationInfo>>> GetEducationInfos()
+        public async Task<ActionResult<IEnumerable<Payroll>>> GetPayslips()
         {
-            return await _context.EducationInfos.ToListAsync();
+            return await _context.Payrolls.ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<EducationInfo>> GetEducationInfos(int id)
+        public async Task<ActionResult<Payroll>> GetPayslips(int id)
         {
-            var educationInfo = await _context.EducationInfos.FindAsync(id);
+            var payslip = await _context.Payrolls.FindAsync(id);
 
-            if (educationInfo == null)
+            if (payslip == null)
             {
                 return NotFound();
             }
 
-            return educationInfo;
+            return payslip;
         }
 
         [HttpPost]
-        public async Task<ActionResult<EducationInfo>> PostEducationInfos( [FromBody] EducationInfoFormViewModel educationInfo)
+        public async Task<ActionResult<Payroll>> PostPayslips([FromBody] PayslipFormViewModel payslip)
         {
             VerifyUser();
-            var model = new EducationInfo()
+            var model = new Payroll()
             {
-                EducationInfoId = educationInfo.EducationInfoId,
-                Grade = educationInfo.Grade,
-                Institution = educationInfo.Institution,
-                Majors = educationInfo.Majors,
-                YearStart = educationInfo.YearStart,
-                YearEnd = educationInfo.YearEnd
+                SalaryPeriod = payslip.SalaryPeriod,
+                Bank = payslip.Bank,
+                BankAccountNumber = payslip.BankAccountNumber,
+                Salary = payslip.Salary,
+                BackDatedPayment = payslip.BackDatedPayment,
+                Allowance = payslip.Allowance,
+                Incentive = payslip.Incentive,
+                PaidLeave = payslip.PaidLeave,
+                BPJSKesehatan = payslip.BPJSKesehatan,
+                BPJSTenagaKerja = payslip.BPJSTenagaKerja,
             };
             EntityExtension.FlagForCreate(model, _identityService.Username, UserAgent);
-            _context.EducationInfos.Add(model);
+            _context.Payrolls.Add(model);
             await _context.SaveChangesAsync();
             return Created("", model);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<EducationInfo>> DeleteEducationInfo(int id)
+        public async Task<ActionResult<Payroll>> DeletePayslip(int id)
         {
             VerifyUser();
-            var educationInfo = await _context.EducationInfos.FindAsync(id);
-            if (educationInfo == null)
+            var payslip = await _context.Payrolls.FindAsync(id);
+            if (payslip == null)
             {
                 return NotFound();
             }
 
-            _context.EducationInfos.Remove(educationInfo);
+            _context.Payrolls.Remove(payslip);
             await _context.SaveChangesAsync();
 
-            return educationInfo;
+            return payslip;
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEducationInfo(int id, [FromBody] EducationInfoFormViewModel educationInfo)
+        public async Task<IActionResult> PutPayslips(int id, [FromBody] PayslipFormViewModel payslip)
         {
-            /*if (id != educationInfo.Id)
+            /*if (id != familyData.Id)
             {
                 return BadRequest();
             }*/
@@ -108,21 +108,26 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
             try
             {
                 VerifyUser();
-                var model = await _context.EducationInfos.FindAsync(id);
+                var model = await _context.Payrolls.FindAsync(id);
                 {
-                    model.Grade = educationInfo.Grade;
-                    model.Majors = educationInfo.Majors;
-                    model.Institution = educationInfo.Institution;
-                    model.YearStart = educationInfo.YearStart;
-                    model.YearEnd = educationInfo.YearEnd;
+                    model.SalaryPeriod = payslip.SalaryPeriod;
+                    model.Bank = payslip.Bank;
+                    model.BankAccountNumber = payslip.BankAccountNumber;
+                    model.Salary = payslip.Salary;
+                    model.BackDatedPayment = payslip.BackDatedPayment;
+                    model.Allowance = payslip.Allowance;
+                    model.Incentive = payslip.Incentive;
+                    model.PaidLeave = payslip.PaidLeave;
+                    model.BPJSKesehatan = payslip.BPJSKesehatan;
+                    model.BPJSTenagaKerja = payslip.BPJSTenagaKerja;
                 };
                 EntityExtension.FlagForUpdate(model, _identityService.Username, UserAgent);
-                _context.EducationInfos.Update(model);
+                _context.Payrolls.Update(model);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!EducationInfoExist(id))
+                if (!PayrollsExist(id))
                 {
                     return NotFound();
                 }
@@ -135,9 +140,9 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
             return NoContent();
         }
 
-        private bool EducationInfoExist(long id)
+        private bool PayrollsExist(int id)
         {
-            return _context.EducationInfos.Any(e => e.Id == id);
+            throw new NotImplementedException();
         }
     }
 }

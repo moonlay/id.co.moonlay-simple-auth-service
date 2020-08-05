@@ -20,11 +20,6 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Models
         public string Status { get; set; }
         public DateTimeOffset? JoinDate { get; set; }
         public string SkillSet { get; set; }
-        public string FamilyData { get; set; }
-        public string EmergencyContact { get; set; }
-        public string EducationHistory { get; set; }
-        public string InfromalEducationHistory { get; set; }
-        public string WorkingEXP { get; set; }
 
         //public int PayrollID { get; set; }
 

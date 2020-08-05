@@ -16,8 +16,6 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Configs
             builder.Property(p => p.Religion).HasMaxLength(15);
             builder.Property(p => p.Gender).HasMaxLength(10);
             builder.Property(p => p.KTPNumber).HasMaxLength(255);
-            builder.Property(p => p.NameOfContact).HasMaxLength(255);
-            builder.Property(p => p.PhoneNumber).HasMaxLength(255);
         }
     }
 }

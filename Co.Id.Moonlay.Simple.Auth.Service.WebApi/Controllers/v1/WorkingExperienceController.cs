@@ -73,7 +73,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
             var model = new WorkingExperience()
             {
                 Company = workingExperience.Company,
-                JobPosition = workingExperience.JobPosition,
+                JobPositionExperience = workingExperience.JobPositionExperience,
                 TanggalMulai = workingExperience.TanggalMulai,
                 TanggalSelesai = workingExperience.TanggalSelesai,
                 Deskripsi = workingExperience.Deskripsi,
@@ -116,7 +116,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
                 var model = await _context.WorkingExperiences.FindAsync(id);
                 {
                     model.Company = workingExperience.Company;
-                    model.JobPosition = workingExperience.JobPosition;
+                    model.JobPositionExperience = workingExperience.JobPositionExperience;
                     model.TanggalMulai = workingExperience.TanggalMulai;
                     model.TanggalSelesai = workingExperience.TanggalSelesai;
                     model.Deskripsi = workingExperience.Deskripsi;
@@ -127,7 +127,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!workingExperienceExist(id))
+                if (!WorkingExperienceExist(id))
                 {
                     return NotFound();
                 }
@@ -140,7 +140,7 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.WebApi.Controllers.v1
             return NoContent();
         }
 
-        private bool workingExperienceExist(long id)
+        private bool WorkingExperienceExist(long id)
         {
             return _context.WorkingExperiences.Any(e => e.Id == id);
         }

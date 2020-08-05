@@ -21,11 +21,6 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.Configs
             builder.Property(p => p.Status).HasMaxLength(25);
             builder.Property(p => p.Password).HasMaxLength(25);
             builder.Property(p => p.SkillSet).HasMaxLength(255);
-            builder.Property(p => p.FamilyData).HasMaxLength(255);
-            builder.Property(p => p.EmergencyContact).HasMaxLength(255);
-            builder.Property(p => p.EducationHistory).HasMaxLength(255);
-            builder.Property(p => p.InfromalEducationHistory).HasMaxLength(255);
-            builder.Property(p => p.WorkingEXP).HasMaxLength(255);
             builder.Property(p => p.JobTitleName).HasMaxLength(20);
             builder.Property(p => p.Department).HasMaxLength(20);
 

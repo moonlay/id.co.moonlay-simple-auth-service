@@ -105,8 +105,6 @@ namespace Co.Id.Moonlay.Simple.Auth.Service.Lib.BusinessLogic.Services
             data.Relationship = model.Relationship;
             data.KTPNumber = model.KTPNumber;
             data.Gender = model.Gender;
-            data.PhoneNumber = model.PhoneNumber;
-            data.NameOfContact = model.NameOfContact;
 
             DbSet.Update(data);
             return await DbContext.SaveChangesAsync();
